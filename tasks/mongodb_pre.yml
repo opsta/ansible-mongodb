@@ -1,0 +1,9 @@
+---
+- name: Add MongoDB repository key
+  apt_key:
+    keyserver: "{{ mongodb_apt_key_server }}"
+    id: "{{ mongodb_apt_key_id }}"
+
+- name: Add MongoDB apt-repository
+  apt_repository:
+    repo: "{{ mongodb_apt_repo }}"

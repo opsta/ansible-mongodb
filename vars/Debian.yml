@@ -1,0 +1,6 @@
+---
+mongodb_apt_package: mongodb-org
+mongodb_apt_key_server: keyserver.ubuntu.com
+mongodb_apt_key_id: 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+mongodb_apt_repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
+mongodb_service_name: mongod

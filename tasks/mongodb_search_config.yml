@@ -1,0 +1,37 @@
+---
+- name: Set list of path to look for local MongoDB configuration directory
+  set_fact:
+    mongodb_search_config_paths: "{{ mongodb_search_config_paths }} + [ '{{ mongodb_search_config_path }}' ]"
+  with_items: "{{ group_names }}"
+
+- name: Check if MongoDB configuration directory exists
+  stat:
+    path: "{{ item }}"
+  register: mongodb_config_check
+  become: false
+  delegate_to: 127.0.0.1
+  with_first_found:
+    - files: "{{ mongodb_search_config_paths }}"
+      skip: true
+
+- name: Set MongoDB configuration directory
+  set_fact:
+    mongodb_host_config_path: "{{ mongodb_config_check.results[0].stat.path }}"
+  when:
+    - mongodb_config_check.results[0] is defined
+    - mongodb_config_check.results[0].stat is defined
+    - mongodb_config_check.results[0].stat.isdir
+
+- name: Check if MongoDB template configuration file is exists
+  stat:
+    path: "{{ mongodb_host_config_file_path }}"
+  become: false
+  delegate_to: 127.0.0.1
+  register: mongodb_config_check
+
+- name: Check if MongoDB SSL certificates is exists
+  stat:
+    path: "{{ mongodb_host_config_ssl_path }}"
+  become: false
+  delegate_to: 127.0.0.1
+  register: mongodb_config_ssl_check

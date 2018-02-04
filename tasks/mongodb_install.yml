@@ -1,0 +1,11 @@
+---
+- name: Install MongoDB
+  apt:
+    name: "{{ mongodb_apt_package }}"
+    state: present
+    update_cache: yes
+
+- name: Start MongoDB
+  service:
+    name: "{{ mongodb_service_name }}"
+    state: started

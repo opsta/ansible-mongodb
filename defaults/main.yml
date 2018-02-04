@@ -1,0 +1,8 @@
+---
+mongodb_search_config_path: "{{ playbook_dir }}/files/groups/{{ item }}/mongodb"
+mongodb_search_config_paths: []
+
+mongodb_host_config_file_path: "{{ mongodb_host_config_path | default(inventory_hostname) }}/mongodb.rb.j2"
+mongodb_host_config_ssl_path: "{{ mongodb_host_config_path | default(inventory_hostname) }}/ssl"
+mongodb_config_file_path: /etc/mongodb/mongodb.rb
+mongodb_config_path: /etc/mongodb
