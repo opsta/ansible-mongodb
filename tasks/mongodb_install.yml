@@ -5,7 +5,9 @@
     state: present
     update_cache: yes
 
-- name: Start MongoDB
-  service:
-    name: "{{ mongodb_service_name }}"
-    state: started
+- name: Ensure service enabled
+    service:
+      name: "{{ mongodb_service_name }}"
+      enabled: yes
+      state: started
+  
