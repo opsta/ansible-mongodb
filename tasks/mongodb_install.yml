@@ -6,8 +6,8 @@
     update_cache: yes
 
 - name: Ensure service enabled
-    service:
-      name: "{{ mongodb_service_name }}"
-      enabled: yes
-      state: started
+  service:
+    name: "{{ mongodb_service_name }}"
+    enabled: yes
+    state: started
   
