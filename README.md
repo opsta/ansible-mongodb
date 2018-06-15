@@ -18,7 +18,7 @@ None.
 
     - hosts: all
       roles:
-        - ansible-mongodb
+        - opsta.mongodb
 
 
 ## License

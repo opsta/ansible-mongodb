@@ -1,8 +1,15 @@
 ---
-- name: Add MongoDB repository key
+- name: Add MongoDB repository key (un-proxy environment)
   apt_key:
     keyserver: "{{ mongodb_apt_key_server }}"
     id: "{{ mongodb_apt_key_id }}"
+  when: proxy_env is not defined
+
+# apt-key with proxy need to use command
+# https://github.com/ansible/ansible/issues/31691#issuecomment-396973282
+- name: Add MongoDB repository key (proxy environment)
+  command: "apt-key adv --keyserver-options http-proxy={{ proxy_env.http_proxy }} --fetch-keys 'http://{{ mongodb_apt_key_server }}/pks/lookup?op=get&search=0x{{ mongodb_apt_key_id }}'"
+  when: proxy_env is defined
 
 - name: Add MongoDB apt-repository
   apt_repository:
