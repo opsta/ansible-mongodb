@@ -6,3 +6,6 @@ mongodb_host_config_file_path: "{{ mongodb_host_config_path | default(inventory_
 mongodb_host_config_ssl_path: "{{ mongodb_host_config_path | default(inventory_hostname) }}/ssl"
 mongodb_config_file_path: /etc/mongodb/mongodb.rb
 mongodb_config_path: /etc/mongodb
+
+mongodb_apt_key_id: 9DA31620334BD75D9DCB49F368818C72E52529D4
+mongodb_apt_repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse
