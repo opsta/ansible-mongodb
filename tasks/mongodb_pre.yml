@@ -1,16 +1,20 @@
 ---
-- name: Add MongoDB repository key (un-proxy environment)
+- name: Add MongoDB repository key (Ubuntu/Debian)
   apt_key:
-    keyserver: "{{ mongodb_apt_key_server }}"
-    id: "{{ mongodb_apt_key_id }}"
-  when: proxy_env is not defined
+    url: "{{ mongodb_key_url }}"
+  when:
+    - proxy_env is not defined
+    - ansible_os_family == 'Debian'
 
-# apt-key with proxy need to use command
-# https://github.com/ansible/ansible/issues/31691#issuecomment-396973282
-- name: Add MongoDB repository key (proxy environment)
-  command: "apt-key adv --keyserver-options http-proxy={{ proxy_env.http_proxy }} --fetch-keys 'http://{{ mongodb_apt_key_server }}/pks/lookup?op=get&search=0x{{ mongodb_apt_key_id }}'"
-  when: proxy_env is defined
-
-- name: Add MongoDB apt-repository
+- name: Add MongoDB repository (Ubuntu/Debian)
   apt_repository:
     repo: "{{ mongodb_apt_repo }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Add MongoDB repository (CentOS/RHEL)
+  yum_repository:
+    name: "mongodb"
+    description: "MongoDB YUM repository"
+    baseurl: "{{ mongodb_yum_repo }}"
+    gpgkey: "{{ mongodb_key_url }}"
+  when: ansible_os_family == 'RedHat'
