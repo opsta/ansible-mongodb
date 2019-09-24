@@ -1,13 +1,19 @@
 ---
-- name: Install MongoDB
+- name: Install MongoDB (Ubuntu/Debian)
   apt:
-    name: "{{ mongodb_apt_package }}"
+    name: "{{ mongodb_package_name }}"
     state: present
     update_cache: yes
+  when: ansible_os_family == 'Debian'
 
-- name: Ensure service enabled
+- name: Install MongoDB (CentOS/RHEL)
+  yum:
+    name: "{{ mongodb_package_name }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Ensure service is enabled
   service:
     name: "{{ mongodb_service_name }}"
     enabled: yes
     state: started
-  
