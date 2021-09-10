@@ -18,3 +18,22 @@
     baseurl: "{{ mongodb_yum_repo }}"
     gpgkey: "{{ mongodb_key_url }}"
   when: ansible_os_family == 'RedHat'
+
+- name: Add MongoDB Group
+  ansible.builtin.group:
+    name: "{{ MongoDB_group }}"
+
+- name: Add MongoDB User
+  ansible.builtin.user:
+    name: "{{ mongodb_user }}"
+    group: "{{ mongodb_group }}"
+    shell: /bin/bash
+    home: "{{ mongodb_data_dir }}"
+
+- name: Create MongoDB data folder
+  file:
+    path: "{{ mongodb_data_dir }}"
+    state: directory
+    owner: "{{ mongodb_user }}"
+    group: "{{ mongodb_group }}"
+    mode: 0700

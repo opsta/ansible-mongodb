@@ -14,3 +14,7 @@ mongodb_search_config_paths: []
 mongodb_host_config_file_path: "{{ mongodb_host_config_path | default(inventory_hostname) }}/mongod.conf.j2"
 mongodb_host_config_ssl_path: "{{ mongodb_host_config_path | default(inventory_hostname) }}/ssl"
 mongodb_config_file_path: /etc/mongod.conf
+
+mongodb_user: mongodb
+mongodb_group: mongodb
+mongodb_data_dir: /var/lib/mongodb
