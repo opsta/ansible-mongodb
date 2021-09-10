@@ -21,7 +21,7 @@
 
 - name: Add MongoDB Group
   ansible.builtin.group:
-    name: "{{ MongoDB_group }}"
+    name: "{{ mongodb_group }}"
 
 - name: Add MongoDB User
   ansible.builtin.user:
