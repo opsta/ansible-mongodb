@@ -2,14 +2,14 @@
 - name: Download GPG key for MongoDB repository (Ubuntu/Debian)
   ansible.builtin.get_url:
     url: "{{ mongodb_key_url }}"
-    dest: "/usr/share/keyrings/mongodb-keyring.gpg"
+    dest: "{{ mongodb_key_path }}"
     mode: "0644"
     force: true
   when: ansible_os_family == "Debian"
 
 - name: Add MongoDB APT repository (Ubuntu/Debian)
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/mongodb-keyring.gpg] {{ mongodb_apt_repo }}"
+    repo: "{{ mongodb_apt_repo }}"
     state: present
   when: ansible_os_family == "Debian"
 
