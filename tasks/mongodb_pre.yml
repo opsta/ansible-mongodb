@@ -11,7 +11,7 @@
         force: true
 
     - name: Convert ASC to GPG (dearmor) (Ubuntu/Debian)
-      ansible.builtin.command: "gpg --dearmor < {{ mongodb_key_tmp }} > {{ mongodb_key_path }}"
+      ansible.builtin.command: "gpg --dearmor {{ mongodb_key_tmp }} -o {{ mongodb_key_path }}"
       args:
         creates: "{{ mongodb_key_path }}"
 
