@@ -1,14 +1,14 @@
 ---
-- name: Install MongoDB (Ubuntu/Debian)
+- name: Install MongoDB {{ mongodb_package_version }} (Ubuntu/Debian)
   ansible.builtin.apt:
     name: "{{ mongodb_package_name }}={{ mongodb_package_version }}"
     state: present
     update_cache: true
   when: ansible_os_family == "Debian"
 
-- name: Install MongoDB (CentOS/RHEL)
+- name: Install MongoDB {{ mongodb_package_version }} (CentOS/RHEL)
   ansible.builtin.dnf:
-    name: "{{ mongodb_package_name }}"
+    name: "{{ mongodb_package_name }}-{{ mongodb_package_version }}"
     state: present
   when: ansible_os_family == "RedHat"
 
