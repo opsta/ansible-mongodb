@@ -1,17 +1,24 @@
 ---
-- name: Download GPG key for MongoDB repository (Ubuntu/Debian)
-  ansible.builtin.get_url:
-    url: "{{ mongodb_key_url }}"
-    dest: "{{ mongodb_key_path }}"
-    mode: "0644"
-    force: true
+- name: Prepare APT repository for MongoDB (Ubuntu/Debian)
   when: ansible_os_family == "Debian"
+  block:
 
-- name: Add MongoDB APT repository (Ubuntu/Debian)
-  ansible.builtin.apt_repository:
-    repo: "{{ mongodb_apt_repo }}"
-    state: present
-  when: ansible_os_family == "Debian"
+    - name: Download GPG key for MongoDB repository (Ubuntu/Debian)
+      ansible.builtin.get_url:
+        url: "{{ mongodb_key_url }}"
+        dest: "{{ mongodb_key_tmp }}"
+        mode: "0644"
+        force: true
+
+    - name: Convert ASC to GPG (dearmor) (Ubuntu/Debian)
+      ansible.builtin.command: "gpg --dearmor < {{ mongodb_key_tmp }} > {{ mongodb_key_path }}"
+      args:
+        creates: "{{ mongodb_key_path }}"
+
+    - name: Add MongoDB APT repository (Ubuntu/Debian)
+      ansible.builtin.apt_repository:
+        repo: "{{ mongodb_apt_repo }}"
+        state: present
 
 - name: Add MongoDB YUM repository (CentOS/RHEL)
   ansible.builtin.yum_repository:
