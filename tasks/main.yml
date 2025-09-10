@@ -1,9 +1,15 @@
 ---
-- include_tasks: mongodb_pre.yml
-- include_tasks: mongodb_install.yml
+- name: Pre Task MongoDB
+  ansible.builtin.include_tasks: mongodb_pre.yml
 
-- block: # Config MongoDB
-  - include_tasks: mongodb_search_config.yml
-  - include_tasks: mongodb_post.yml
+- name: Install MongoDB
+  ansible.builtin.include_tasks: mongodb_install.yml
+
+- name: Config MongoDB
   tags:
     - mongodb-config
+  block: # Config MongoDB
+    - name: Search Config MongoDB
+      ansible.builtin.include_tasks: mongodb_search_config.yml
+    - name: Post Task MongoDB
+      ansible.builtin.include_tasks: mongodb_post.yml

@@ -1,19 +1,12 @@
 ---
 galaxy_info:
+  role_name: mongodb
+  namespace: opsta
   author: Opsta
   description: Ansible role to install and config MongoDB
   company: "Opsta (Thailand) Co.,Ltd."
   license: "MIT"
-  min_ansible_version: 2.4
-  platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
-    - xenial
-    - bionic
-  - name: EL
-    versions:
-    - 7
+  min_ansible_version: "2.18"
   galaxy_tags:
     - nosql
     - mongodb

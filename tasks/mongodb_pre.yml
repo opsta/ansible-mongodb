@@ -1,23 +1,25 @@
 ---
-- name: Add MongoDB repository key (Ubuntu/Debian)
-  apt_key:
+- name: Download GPG key for MongoDB repository (Ubuntu/Debian)
+  ansible.builtin.get_url:
     url: "{{ mongodb_key_url }}"
-  when:
-    - proxy_env is not defined
-    - ansible_os_family == 'Debian'
+    dest: "/usr/share/keyrings/mongodb-keyring.gpg"
+    mode: "0644"
+    force: true
+  when: ansible_os_family == "Debian"
 
-- name: Add MongoDB repository (Ubuntu/Debian)
-  apt_repository:
-    repo: "{{ mongodb_apt_repo }}"
-  when: ansible_os_family == 'Debian'
+- name: Add MongoDB APT repository (Ubuntu/Debian)
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/mongodb-keyring.gpg] {{ mongodb_apt_repo }}"
+    state: present
+  when: ansible_os_family == "Debian"
 
-- name: Add MongoDB repository (CentOS/RHEL)
-  yum_repository:
+- name: Add MongoDB YUM repository (CentOS/RHEL)
+  ansible.builtin.yum_repository:
     name: "mongodb"
     description: "MongoDB YUM repository"
     baseurl: "{{ mongodb_yum_repo }}"
     gpgkey: "{{ mongodb_key_url }}"
-  when: ansible_os_family == 'RedHat'
+  when: ansible_os_family == "RedHat"
 
 - name: Add MongoDB Group
   ansible.builtin.group:
@@ -31,9 +33,9 @@
     home: "{{ mongodb_data_dir }}"
 
 - name: Create MongoDB data folder
-  file:
+  ansible.builtin.file:
     path: "{{ mongodb_data_dir }}"
     state: directory
     owner: "{{ mongodb_user }}"
     group: "{{ mongodb_group }}"
-    mode: 0700
+    mode: "0700"

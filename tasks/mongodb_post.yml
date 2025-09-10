@@ -1,10 +1,10 @@
 ---
 - name: Copy MongoDB configuration file
-  template:
+  ansible.builtin.template:
     src: "{{ mongodb_host_config_file_path }}"
     dest: "{{ mongodb_config_file_path }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: mongodb_config_check.stat.exists
   notify: Restart MongoDB
